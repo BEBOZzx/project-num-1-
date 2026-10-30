@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>project num 1</title>
+    <!-- أيقونة التبويب (Favicon): شخص مستخبّي ورا شاشة لابتوب -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23050505'/><path d='M16 8c-3 0-5 2-5 5v3h10v-3c0-3-2-5-5-5z' fill='%23111827'/><circle cx='16' cy='12' r='2.5' fill='%23e2f1f8'/><path d='M12 14c0 0 2 1 4 1s4-1 4-1' fill='none' stroke='%23050505' stroke-width='0.8'/><rect x='6' y='17' width='20' height='10' rx='1.5' fill='%230d1921' stroke='%2322d3ee' stroke-width='1.2'/><polygon points='14,21 18,21 16,19' fill='%2300ff66'/></svg>">
+    
+    <!-- خط Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+    <!-- حبل الأباجورة التفاعلي لتغيير الثيم -->
+    <div class="lamp-switch-container" id="lampSwitch" title="اسحب الحبل لتغيير وضع الإضاءة!">
+        <div class="lamp-rope"></div>
+        <div class="lamp-handle">💡</div>
+    </div>
+
+    <!-- خلفية مطر الماتريكس التفاعلية -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- المؤشر المخصص -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- شريط تقدم السكرول -->
+    <div id="scrollProgress"></div>
+
+    <!-- نظام الإشعارات العائمة Toast -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- الهيدر الشفاف -->
+    <header>
+        <div class="logo" data-ar="موقعي الشخصي" data-en="My Portfolio">موقعي الشخصي</div>
+        <nav>
+            <ul>
+                <li><a href="#about" data-ar="من أنا" data-en="About">من أنا</a></li>
+                <li><a href="#skills" data-ar="مهاراتي" data-en="Skills">مهاراتي</a></li>
+                <li><a href="#projects" data-ar="مشاريعي" data-en="Projects">مشاريعي</a></li>
+                <li><a href="#badge" data-ar="كارت VIP" data-en="Dev Badge">كارت VIP</a></li>
+                <li><a href="#contact" data-ar="تواصل معي" data-en="Contact">تواصل معي</a></li>
+            </ul>
+        </nav>
+        <div class="header-controls">
+            <button id="langToggle" class="icon-btn font-bold">EN</button>
+        </div>
+    </header>
+
+    <!-- الواجهة الرئيسية -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-text reveal">
+                <h1 data-ar="أهلاً بك، أنا " data-en="Welcome, I am ">أهلاً بك، أنا <span id="typingText" class="highlight"></span></h1>
+                <p data-ar="أجمع بين تطوير البرمجيات بالنظم المدمجة، وصناعة المحتوى المرئي والتفاعلي." data-en="Combining embedded software engineering with interactive visual content creation.">أجمع بين تطوير البرمجيات بالنظم المدمجة، وصناعة المحتوى المرئي والتفاعلي.</p>
+                
+                <div class="hero-btns">
+                    <a href="#projects" class="btn" data-ar="تصفح المشاريع" data-en="View Projects">تصفح المشاريع</a>
+                    <a href="#contact" class="btn btn-alt" data-ar="تواصل معي" data-en="Contact Me">تواصل معي</a>
+                </div>
+
+                <!-- اللعبة المصغرة للتسلية -->
+                <div class="mini-game-box">
+                    <div class="game-header">
+                        <span>🎮 لعبة صيد الأكواد (Code Catcher)</span>
+                        <span id="gameScore">النقاط: 0</span>
+                    </div>
+                    <canvas id="gameCanvas" width="320" height="110"></canvas>
+                    <p class="game-hint">حرك الماوس على الشاشة لجمع رموز C++ وتفادي البق BUG!</p>
+                </div>
+            </div>
+
+            <!-- التيرمينال التفاعلي الأسطوري -->
+            <div class="hero-screen reveal">
+                <div class="screen-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="screen-title">interactive@terminal:~</span>
+                </div>
+                <div class="screen-body">
+                    <div class="terminal-output" id="terminalOutput">
+                        <p class="line">> Interactive Terminal OS v2.0 initialized.</p>
+                        <p class="line">> Type <span class="status">'help'</span> for list of commands.</p>
+                    </div>
+                    <div class="terminal-input-row">
+                        <span class="prompt">></span>
+                        <input type="text" id="terminalInput" placeholder="اكتب أمراً هنا (مثلاً: help)..." autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم من أنا -->
+    <section id="about" class="section reveal">
+        <h2 data-ar="من أنا" data-en="About Me">من أنا</h2>
+        <p data-ar="طالب علوم حاسب وشغوف بتطوير البرمجيات والأجهزة المدمجة. أعمل على ابتكار الحلول البرمجية وتطوير الأنظمة بـ C++ و ESP32، بجانب شغفي في تصميم وصناعة المحتوى التفاعلي المرئي." data-en="Computer Science student passionate about software engineering and embedded systems (C++, ESP32), alongside creating engaging tech content.">طالب علوم حاسب وشغوف بتطوير البرمجيات والأجهزة المدمجة. أعمل على ابتكار الحلول البرمجية وتطوير الأنظمة بـ C++ و ESP32، بجانب شغفي في تصميم وصناعة المحتوى التفاعلي المرئي.</p>
+    </section>
+
+    <!-- قسم المهارات -->
+    <section id="skills" class="section reveal">
+        <h2 data-ar="مهاراتي التقنية" data-en="Technical Skills">مهاراتي التقنية</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3 data-ar="تطوير البرمجيات" data-en="Software Dev">تطوير البرمجيات</h3>
+                <p>C++ | HTML5 | CSS3 | JavaScript</p>
+            </div>
+            <div class="skill-card">
+                <h3 data-ar="النظم المدمجة والهاردوير" data-en="Embedded Systems">النظم المدمجة والهاردوير</h3>
+                <p>ESP32 | MPU6050 Sensors | Logic Design</p>
+            </div>
+            <div class="skill-card">
+                <h3 data-ar="صناعة المحتوى والمونتاج" data-en="Content Creation">صناعة المحتوى والمونتاج</h3>
+                <p>Scriptwriting | Audio Editing | Video Production</p>
+            </div>
+            <div class="skill-card">
+                <h3 data-ar="إدارة المشاريع والقيادة" data-en="Project Management">إدارة المشاريع والقيادة</h3>
+                <p>Team Leadership | Workflow Optimization</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم مولد بطاقة المطور VIP -->
+    <section id="badge" class="section reveal">
+        <h2 data-ar="استخرج بطاقة الزائر VIP" data-en="Generate Visitor Badge">استخرج بطاقة الزائر VIP</h2>
+        <div class="badge-container">
+            <div class="badge-input-box">
+                <input type="text" id="visitorNameInput" placeholder="اكتب اسمك هنا..." maxlength="20">
+                <button class="btn" onclick="generateBadge()">إصدار البطاقة الرقمية 🎫</button>
+            </div>
+            <div class="badge-card" id="badgeCard">
+                <div class="badge-header">
+                    <span>VIP DEV PASS</span>
+                    <span class="badge-id">#2026-PASS</span>
+                </div>
+                <div class="badge-body">
+                    <div class="badge-avatar">
+                        <svg viewBox="0 0 32 32" width="40" height="40">
+                            <rect width="32" height="32" rx="6" fill="#050505"/>
+                            <path d="M16 8c-3 0-5 2-5 5v3h10v-3c0-3-2-5-5-5z" fill="#111827"/>
+                            <circle cx="16" cy="12" r="2.5" fill="#e2f1f8"/>
+                            <path d="M12 14c0 0 2 1 4 1s4-1 4-1" fill="none" stroke="#050505" stroke-width="0.8"/>
+                            <rect x="6" y="17" width="20" height="10" rx="1.5" fill="#0d1921" stroke="#22d3ee" stroke-width="1.2"/>
+                            <polygon points="14,21 18,21 16,19" fill="#00ff66"/>
+                        </svg>
+                    </div>
+                    <div class="badge-info">
+                        <h4 id="badgeName">اسمك ايه يا متطفل</h4>
+                        <p>Special Guest @ Portfolio OS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المشاريع -->
+    <section id="projects" class="section reveal">
+        <h2 data-ar="مشاريعي وأعمالي" data-en="Featured Projects">مشاريعي وأعمالي</h2>
+        <div class="filter-btns">
+            <button class="filter-btn active" data-filter="all" data-ar="الكل" data-en="All">الكل</button>
+            <button class="filter-btn" data-filter="dev" data-ar="برمجة وهاردوير" data-en="Development">برمجة وهاردوير</button>
+            <button class="filter-btn" data-filter="content" data-ar="صناعة محتوى" data-en="Media">صناعة محتوى</button>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card" data-category="dev" onclick="openModal('proj1')">
+                <span class="tag">برمجة وهاردوير</span>
+                <h3>نظام تتبع الحركة والسرعة</h3>
+                <p>مشروع تفاعلي لقراءة وتحليل بيانات التسارع والزوايا بـ ESP32. (اضغط للتفاصيل)</p>
+            </div>
+            <div class="project-card" data-category="content" onclick="openModal('proj2')">
+                <span class="tag">صناعة محتوى</span>
+                <h3>إنتاج محتوى المعرفة والتاريخ</h3>
+                <p>مقاطع سكريبت ومونتاج صوتي مرئي بجودة عالية. (اضغط للتفاصيل)</p>
+            </div>
+            <div class="project-card" data-category="dev" onclick="openModal('proj3')">
+                <span class="tag">تطوير ويب</span>
+                <h3>موقع البورتفوليو الحديث</h3>
+                <p>موقع ويب بتصميم زجاجي، مؤشرات حركة، ودعم لغات متعددة. (اضغط للتفاصيل)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- النافذة المنبثقة للتفاصيل Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">×</span>
+            <h3 id="modalTitle">عنوان المشروع</h3>
+            <p id="modalDesc">تفاصيل المشروع بالكامل...</p>
+            <div class="modal-footer">
+                <a href="#" target="_blank" id="modalLink" class="btn">معاينة / GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم التواصل -->
+    <section id="contact" class="section reveal">
+        <h2 data-ar="تواصل معي" data-en="Contact Me">تواصل معي</h2>
+        <div class="contact-container">
+            <form id="contactForm" class="contact-form">
+                <input type="text" placeholder="الاسم الكامل" required>
+                <input type="email" placeholder="البريد الإلكتروني" required>
+                <textarea rows="5" placeholder="اكتب رسالتك هنا..." required></textarea>
+                <button type="submit" class="btn" data-ar="إرسال الرسالة" data-en="Send Message">إرسال الرسالة</button>
+            </form>
+            <div class="social-links">
+                <a href="https://github.com" target="_blank">GitHub</a>
+                <a href="https://youtube.com" target="_blank">YouTube</a>
+                <a href="mailto:example@email.com">Direct Email</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p data-ar="جميع الحقوق محفوظة © 2026 | صُمم بشغف" data-en="All Rights Reserved © 2026 | Built with Passion">جميع الحقوق محفوظة © 2026 | صُمم بشغف</p>
+    </footer>
+
+    <button id="backToTop" class="back-to-top">↑</button>
+
+    <!-- السكريبت الشامل والمتكامل -->
+    <script>
+        // 1. نظام الماتريكس في الخلفية
+        const mCanvas = document.getElementById('matrixCanvas');
+        const mCtx = mCanvas.getContext('2d');
+        mCanvas.width = window.innerWidth;
+        mCanvas.height = window.innerHeight;
+        const matrixChars = "01100101 C++ ESP32 HTML JS MPU6050 CODE".split("");
+        const fontSize = 14;
+        const columns = mCanvas.width / fontSize;
+        const drops = Array.from({ length: columns }, () => 1);
+
+        function drawMatrix() {
+            const isDark = document.body.classList.contains('dark-theme');
+            mCtx.fillStyle = isDark ? "rgba(5, 5, 5, 0.08)" : "rgba(245, 245, 247, 0.08)";
+            mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+            mCtx.fillStyle = isDark ? "#00ff66" : "#0284c7";
+            mCtx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                mCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 40);
+
+        // 2. الماوس المخصص
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 400, fill: "forwards" });
+        });
+
+        // 3. نظام الأصوات التفاعلية
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBoing() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.type = 'sine'; const now = audioCtx.currentTime;
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+            osc.frequency.exponentialRampToValueAtTime(150, now + 0.25);
+            gain.gain.setValueAtTime(0.1, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(now); osc.stop(now + 0.25);
+        }
+        function playPop() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.type = 'triangle'; const now = audioCtx.currentTime;
+            osc.frequency.setValueAtTime(400, now);
+            osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(now); osc.stop(now + 0.08);
+        }
+
+        document.querySelectorAll('.btn, button').forEach(b => b.addEventListener('click', playBoing));
+        document.querySelectorAll('.project-card, .skill-card').forEach(c => c.addEventListener('click', playPop));
+
+        // 4. حبل الأباجورة التفاعلي لتغيير الوضع
+        const lampSwitch = document.getElementById('lampSwitch');
+        lampSwitch.addEventListener('click', () => {
+            lampSwitch.classList.add('pull');
+            playBoing();
+            setTimeout(() => {
+                document.body.classList.toggle('light-theme');
+                document.body.classList.toggle('dark-theme');
+                lampSwitch.classList.remove('pull');
+                const isLight = document.body.classList.contains('light-theme');
+                showToast(isLight ? "تم إشعال النور ☀️" : "تم إطفاء النور 🌙 (Deep Black Mode)");
+            }, 250);
+        });
+
+        // 5. Toast الإشعارات
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = msg;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        // 6. التيرمينال التفاعلي Bot
+        const tInput = document.getElementById('terminalInput');
+        const tOutput = document.getElementById('terminalOutput');
+
+        tInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = tInput.value.trim().toLowerCase();
+                appendTerminalLine(`> ${tInput.value}`);
+                tInput.value = '';
+
+                if (cmd === 'help') {
+                    appendTerminalLine("الأوامر المتاحة:\n- skills: عرض المهارات\n- projects: رؤية المشاريع\n- clear: مسح الشاشة\n- date: التاريخ والوقت");
+                } else if (cmd === 'skills') {
+                    appendTerminalLine("المهارات: C++, ESP32, Logic Design, HTML/CSS/JS, Video Production");
+                } else if (cmd === 'projects') {
+                    appendTerminalLine("المشاريع: نظام تتبع ESP32، قناة المعرفة، والبورتفوليو OS");
+                } else if (cmd === 'clear') {
+                    tOutput.innerHTML = '';
+                } else if (cmd === 'date') {
+                    appendTerminalLine("الوقت الحالي: " + new Date().toLocaleString('ar-EG'));
+                } else {
+                    appendTerminalLine("أمر غير معروف! اكتب 'help' للأوامر.");
+                }
+                playPop();
+            }
+        });
+
+        function appendTerminalLine(text) {
+            const p = document.createElement('p');
+            p.className = 'line';
+            p.innerText = text;
+            tOutput.appendChild(p);
+            tOutput.scrollTop = tOutput.scrollHeight;
+        }
+
+        // 7. مولد بطاقة VIP
+        function generateBadge() {
+            const name = document.getElementById('visitorNameInput').value.trim();
+            if (name) {
+                document.getElementById('badgeName').innerText = name;
+                showToast(`تم إصدار بطاقة VIP باسم: ${name} 🎫`);
+                playBoing();
+            } else {
+                showToast("اكتب اسمك الأول يا متطفل! 😂");
+            }
+        }
+
+        // 8. لعبة C++ Code Catcher
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let score = 0, playerX = 130, items = [];
+
+        setInterval(() => {
+            const types = ['C++', 'ESP32', '{}', 'BUG'];
+            items.push({ x: Math.random() * 280 + 10, y: 0, type: types[Math.floor(Math.random() * types.length)], speed: 1.5 + Math.random() * 1.5 });
+        }, 1100);
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            playerX = e.clientX - rect.left - 25;
+        });
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#22d3ee';
+            ctx.fillRect(playerX, 95, 50, 8);
+
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+                item.y += item.speed;
+                ctx.font = '11px monospace';
+                ctx.fillStyle = item.type === 'BUG' ? '#ff5f56' : '#00ff66';
+                ctx.fillText(item.type, item.x, item.y);
+
+                if (item.y >= 90 && item.x >= playerX && item.x <= playerX + 50) {
+                    if (item.type === 'BUG') {
+                        score = Math.max(0, score - 5); playBoing();
+                    } else {
+                        score += 10; playPop();
+                    }
+                    document.getElementById('gameScore').innerText = 'النقاط: ' + score;
+                    items.splice(i, 1); i--;
+                } else if (item.y > 110) { items.splice(i, 1); i--; }
+            }
+            requestAnimationFrame(updateGame);
+        }
+        updateGame();
+
+        // 9. اللغة والسكرول
+        document.getElementById('langToggle').onclick = () => {
+            const cur = document.documentElement.lang === 'ar' ? 'en' : 'ar';
+            document.documentElement.lang = cur;
+            document.documentElement.dir = cur === 'ar' ? 'rtl' : 'ltr';
+            document.querySelectorAll('[data-ar]').forEach(e => e.innerText = e.getAttribute(`data-${cur}`));
+        };
+
+        window.onscroll = () => {
+            let winScroll = document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("scrollProgress").style.width = (winScroll / height) * 100 + "%";
+            document.getElementById("backToTop").style.display = winScroll > 300 ? "block" : "none";
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('active');
+            });
+        };
+        document.getElementById("backToTop").onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // 10. الكتابة والـ Modal
+        const words = ["مبرمج C++", "صانع محتوى", "طالب علوم حاسب"];
+        let i = 0;
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = () => {
+                if (word.length > 0) {
+                    document.getElementById('typingText').innerHTML += word.shift();
+                    setTimeout(loopTyping, 100);
+                } else { setTimeout(deletingEffect, 2000); }
+            };
+            loopTyping();
+        }
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = () => {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typingText').innerHTML = word.join("");
+                    setTimeout(loopDeleting, 50);
+                } else {
+                    i = (i + 1) % words.length; setTimeout(typingEffect, 500);
+                }
+            };
+            loopDeleting();
+        }
+        typingEffect();
+
+        const projectData = {
+            proj1: { title: "نظام تتبع الحركة (ESP32)", desc: "مشروع معالجة MPU6050 بـ C++ وإدارة فريق البرمجة.", link: "https://github.com" },
+            proj2: { title: "صناعة محتوى المعرفة", desc: "سلسلة فيديوهات تاريخية وعلمية بسكريبت ومونتاج مبهر.", link: "https://youtube.com" },
+            proj3: { title: "موقع البورتفوليو الأسطوري", desc: "تطبيق ويب تفاعلي بالماتريكس والتيرمينال واللغات.", link: "https://github.com" }
+        };
+        function openModal(id) {
+            document.getElementById('modalTitle').innerText = projectData[id].title;
+            document.getElementById('modalDesc').innerText = projectData[id].desc;
+            document.getElementById('modalLink').href = projectData[id].link;
+            document.getElementById('projectModal').style.display = 'flex';
+        }
+        function closeModal() { document.getElementById('projectModal').style.display = 'none'; }
+
+        document.getElementById('contactForm').onsubmit = (e) => {
+            e.preventDefault();
+            showToast("تم استلام رسالتك بنجاح! شكرًا لتواصلك 🚀");
+            e.target.reset();
+        };
+    </script>
+</body>
+</html>

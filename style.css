@@ -1,0 +1,225 @@
+/* إعدادات عامة */
+html { scroll-behavior: smooth; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; cursor: none; }
+
+/* خلفية مطر الماتريكس */
+#matrixCanvas {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none; z-index: -1; opacity: 0.25;
+}
+
+/* وضع اللون الأسود الفخم Deep Black */
+body.dark-theme {
+    --bg-color: #050505;
+    --card-bg: rgba(18, 18, 20, 0.75);
+    --text-color: #f1f5f9;
+    --accent-color: #22d3ee;
+    --header-bg: rgba(5, 5, 5, 0.85);
+    --border-color: rgba(34, 211, 238, 0.25);
+}
+
+body.light-theme {
+    --bg-color: #f5f5f7;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --text-color: #0f172a;
+    --accent-color: #0284c7;
+    --header-bg: rgba(245, 245, 247, 0.85);
+    --border-color: rgba(2, 132, 199, 0.2);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.7;
+    transition: background-color 0.4s, color 0.4s;
+    overflow-x: hidden;
+}
+
+/* حبل الأباجورة التفاعلي */
+.lamp-switch-container {
+    position: fixed;
+    top: 0;
+    left: 80px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.lamp-rope {
+    width: 2px;
+    height: 70px;
+    background: linear-gradient(to bottom, #64748b, #22d3ee);
+    box-shadow: 0 0 5px var(--accent-color);
+}
+
+.lamp-handle {
+    font-size: 1.4rem;
+    background: var(--card-bg);
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -2px;
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+    transition: transform 0.2s;
+}
+
+.lamp-switch-container:hover .lamp-handle {
+    transform: scale(1.15);
+}
+
+.lamp-switch-container.pull {
+    transform: translateY(20px);
+}
+
+/* الماوس المخصص */
+.cursor-dot {
+    width: 8px; height: 8px; background-color: var(--accent-color);
+    position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; z-index: 9999;
+}
+.cursor-outline {
+    width: 35px; height: 35px; border: 2px solid var(--accent-color);
+    position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; z-index: 9998; opacity: 0.6;
+}
+
+#scrollProgress {
+    position: fixed; top: 0; right: 0; height: 4px;
+    background-color: var(--accent-color); z-index: 1001; width: 0%;
+}
+
+/* نظام Toast الإشعارات */
+.toast-container {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 3000; display: flex; flex-direction: column; gap: 10px;
+}
+.toast {
+    background: rgba(18, 18, 20, 0.95); border: 1px solid var(--accent-color);
+    color: #fff; padding: 0.8rem 1.6rem; border-radius: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8); opacity: 0; transform: translateY(-20px);
+    transition: all 0.3s ease; font-weight: bold;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* الهيدر */
+header {
+    position: sticky; top: 0; z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 8%; background: var(--header-bg);
+    backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color);
+}
+.logo { font-size: 1.5rem; font-weight: 800; color: var(--accent-color); }
+nav ul { display: flex; list-style: none; gap: 1.8rem; }
+nav a { color: var(--text-color); text-decoration: none; font-weight: 700; transition: 0.3s; }
+nav a:hover { color: var(--accent-color); }
+.header-controls { display: flex; gap: 0.8rem; }
+.icon-btn {
+    background: transparent; border: 1px solid var(--border-color);
+    color: var(--text-color); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: bold;
+}
+
+/* الـ Hero واللعبة المصغرة */
+.hero {
+    min-height: 85vh; display: flex; align-items: center; justify-content: center;
+    padding: 3rem 8%;
+}
+.hero-container { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; align-items: center; width: 100%; max-width: 1200px; }
+.hero-text h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.8rem; }
+.highlight { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
+
+.btn {
+    display: inline-block; background-color: #0e7490; color: #fff;
+    padding: 0.7rem 1.6rem; border-radius: 8px; text-decoration: none; font-weight: 700;
+    border: 1px solid var(--accent-color); transition: all 0.3s;
+}
+.btn:hover { background-color: #06b6d4; transform: translateY(-3px); }
+.btn-alt { background: transparent; color: var(--accent-color); }
+
+.mini-game-box {
+    margin-top: 1.5rem; background: rgba(5, 5, 5, 0.95);
+    border: 1px solid var(--accent-color); border-radius: 10px; padding: 0.8rem; width: 340px;
+}
+.game-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--accent-color); font-weight: bold; margin-bottom: 0.4rem; }
+#gameCanvas { background: #000000; border: 1px solid #164e63; border-radius: 6px; display: block; }
+.game-hint { font-size: 0.75rem; color: #94a3b8; margin-top: 0.4rem; text-align: center; }
+
+/* التيرمينال التفاعلي */
+.hero-screen {
+    background-color: #000000; border: 1px solid #164e63; border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(0, 255, 102, 0.1); overflow: hidden; font-family: monospace;
+}
+.screen-header { background-color: #0d1921; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+.screen-title { color: #64748b; font-size: 0.8rem; margin-right: auto; }
+
+.screen-body { padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem; height: 260px; }
+.terminal-output { flex: 1; overflow-y: auto; color: #00ff66; font-size: 0.85rem; direction: ltr; text-align: left; }
+.terminal-input-row { display: flex; align-items: center; gap: 8px; direction: ltr; }
+.prompt { color: #00ff66; font-weight: bold; }
+#terminalInput {
+    background: transparent; border: none; color: #fff; width: 100%;
+    font-family: monospace; outline: none; font-size: 0.85rem;
+}
+
+/* بطاقة VIP */
+.badge-container { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.badge-input-box { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.badge-input-box input {
+    background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color);
+    padding: 0.7rem 1.2rem; border-radius: 8px; outline: none;
+}
+.badge-card {
+    background: rgba(18, 18, 20, 0.85); backdrop-filter: blur(12px);
+    border: 2px solid var(--accent-color); border-radius: 15px; padding: 1.5rem;
+    width: 320px; box-shadow: 0 10px 30px rgba(34, 211, 238, 0.2);
+}
+.badge-header { display: flex; justify-content: space-between; color: var(--accent-color); font-weight: bold; font-size: 0.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+.badge-body { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; }
+.badge-avatar { display: flex; align-items: center; justify-content: center; }
+.badge-info h4 { color: #fff; font-size: 1.1rem; }
+.badge-info p { color: #94a3b8; font-size: 0.8rem; }
+
+/* Reveal Animation */
+.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* الأقسام والشبكات */
+.section { padding: 4.5rem 8%; max-width: 1200px; margin: 0 auto; }
+.section h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1.8rem; border-right: 5px solid var(--accent-color); padding-right: 0.8rem; color: var(--accent-color); }
+
+.skills-grid, .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.skill-card, .project-card {
+    background: var(--card-bg); backdrop-filter: blur(8px); padding: 1.5rem;
+    border-radius: 12px; border: 1px solid var(--border-color); transition: 0.3s;
+}
+.skill-card:hover, .project-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
+.tag { background-color: #164e63; color: #22d3ee; font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: bold; }
+
+/* Modal */
+.modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index:2000; justify-content:center; align-items:center; }
+.modal-content { background: var(--bg-color); padding: 2rem; border-radius: 12px; border: 1px solid var(--accent-color); max-width: 500px; width: 90%; position: relative; }
+.close-btn { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; cursor: pointer; color: var(--accent-color); }
+
+/* التواصل والفوتر */
+.contact-container { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+.contact-form { display: flex; flex-direction: column; gap: 1rem; }
+.contact-form input, .contact-form textarea { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 0.8rem; border-radius: 8px; }
+.social-links { display: flex; flex-direction: column; gap: 1rem; }
+.social-links a { color: var(--accent-color); background: var(--card-bg); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; text-decoration: none; font-weight: bold; }
+
+.back-to-top { display: none; position: fixed; bottom: 20px; left: 20px; background: var(--accent-color); color: #000; border: none; padding: 0.8rem 1.2rem; border-radius: 50%; font-weight: bold; }
+footer { text-align: center; padding: 1.8rem; background: #000000; color: #64748b; margin-top: 2rem; }
+
+@media (max-width: 900px) {
+    .hero-container, .contact-container { grid-template-columns: 1fr; text-align: center; }
+    .mini-game-box { margin: 1.5rem auto 0 auto; }
+    .lamp-switch-container { left: 20px; }
+}
